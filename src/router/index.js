@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Home from '@/components/Home'
 import Add from '@/components/Add'
 import About from '@/components/About'
+import Mine from '@/components/Mine'
+import Count from '@/components/Count'
+import Setting from '@/components/Setting'
 
 Vue.use(Router)
 
@@ -11,7 +14,11 @@ export default new Router({
     routes: [
         {
             path: '/',
-            component: HelloWorld
+            redirect: '/home'
+        },
+        {
+            path: '/home',
+            component: Home
         },
         {
             path: '/about',
@@ -20,6 +27,18 @@ export default new Router({
         {
             path: '/add',
             component: Add
+        },
+        {
+            path: '/mine',
+            component: Mine
+        },
+        {
+            path: '/count',
+            component: Count
+        },
+        {
+            path: '/setting',
+            component: Setting
         }
     ]
 })

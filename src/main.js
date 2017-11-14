@@ -5,9 +5,16 @@ import App from './App'
 import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+import ui from './components'
+import './scss/main.scss'
+import storage from '@/util/storage'
+
 Vue.use(MuseUI)
+Vue.use(ui)
 
 Vue.config.productionTip = false
+
+Vue.prototype.$storage = storage
 
 /* eslint-disable no-new */
 new Vue({

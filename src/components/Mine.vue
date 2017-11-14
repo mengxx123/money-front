@@ -1,32 +1,32 @@
 <template>
-    <div class="hello">
-        <header class="page-header">
-            <mu-appbar title="关于">
-                <mu-icon-button icon="arrow_back" slot="left" @click="$router.go(-1)" />
-            </mu-appbar>
-        </header>
-
-
-        <h2>关于</h2>
-        <div>记账软件1.0</div>
-        <mu-drawer :open="open" :docked="docked" @close="toggle()">
-            <mu-list @itemClick="docked ? '' : toggle()">
-                <mu-list-item title="主页"/>
-                <mu-list-item title="统计"/>
-                <mu-list-item title="关于"/>
+    <div class="page page-mine">
+        <mu-appbar title="我">
+            <mu-icon-button icon="menu" slot="left" @click="toggle(true)"/>
+            <mu-icon-menu icon="more_vert" slot="right">
+                <mu-menu-item title="菜单 1"/>
+                <mu-menu-item title="菜单 2"/>
+                <mu-menu-item title="菜单 3"/>
+                <mu-menu-item title="菜单 4"/>
+                <mu-menu-item title="菜单 5"/>
+            </mu-icon-menu>
+        </mu-appbar>
+        <main class="page-body">
+            <mu-list>
+                <mu-list-item title="设置" to="/setting">
+                    <mu-icon slot="left" value="settings"/>
+                </mu-list-item>
             </mu-list>
-        </mu-drawer>
+        </main>
+        <ui-footer></ui-footer>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'HelloWorld',
         data () {
             return {
                 name: '',
                 money: null,
-//                total: 0,
                 items: [
                     {
                         name: '早餐',
