@@ -8,6 +8,7 @@ import 'muse-ui/dist/muse-ui.css'
 import ui from './components'
 import './scss/main.scss'
 import storage from '@/util/storage'
+import model from '@/util/model'
 
 Vue.use(MuseUI)
 Vue.use(ui)
@@ -15,6 +16,7 @@ Vue.use(ui)
 Vue.config.productionTip = false
 
 Vue.prototype.$storage = storage
+Vue.prototype.$model = model
 
 /* eslint-disable no-new */
 new Vue({

@@ -9,18 +9,27 @@
                 </mu-icon-menu>
             </mu-appbar>
         </header>
-        <div class="page-body">
+        <main class="page-body">
+            <div v-if="!items.length">数据为空</div>
+            <h2>本月支出{{ pay }} 本月收入￥{{ income }}</h2>
+            <button @click="clear">清空</button>
             <mu-list class="list">
-                <mu-list-item :title="item.name" v-for="item in items" :key="item.money">
+                <mu-list-item :title="item.name" v-for="item in items"
+                              @click="viewItem(item)"
+                              :key="item.money">
                     ￥{{ item.money }}
                     {{ timeText(item) }}
+                    <div v-if="item.type === 'income'">
+                        收入
+                    </div>
+                    <div v-if="item.type === 'pay'">
+                        支出（{{ test(item) }}）
+                    </div>
                     <mu-avatar src="/static/img/demo.png" slot="leftAvatar"/>
                     <mu-icon slot="right" value="delete" @click="remove(item)" />
                 </mu-list-item>
             </mu-list>
-            <h2>总计：￥{{ total }}</h2>
-
-        </div>
+        </main>
         <ui-footer></ui-footer>
         <mu-drawer :open="open" :docked="docked" @close="toggle()">
             <mu-list @itemClick="docked ? '' : toggle()">
@@ -37,7 +46,6 @@
     export default {
         data () {
             return {
-
 //                total: 0,
                 items: [
                     {
@@ -64,10 +72,23 @@
             }
         },
         computed: {
-            total() {
+            pay() {
+                // 支出
                 let total = 0
                 for (let item of this.items) {
-                    total += item.money
+                    if (item.type === 'pay') {
+                        total += item.money
+                    }
+                }
+                return total
+            },
+            income() {
+                // 收入
+                let total = 0
+                for (let item of this.items) {
+                    if (item.type === 'income') {
+                        total += item.money
+                    }
                 }
                 return total
             }
@@ -77,18 +98,27 @@
             // this.total = this.items.concat((total, item) => total += item)
         },
         methods: {
-            getData() {
-                let items = this.$storage.get('items')
-                if (!items) {
-                    items = []
+            test(item) {
+                let category = this.$model.getCategory(item.category)
+                if (category) {
+                    return category.name
                 }
-                this.items = items
+                return ''
+            },
+            viewItem(item) {
+                this.$router.push('/items/' + item.id)
+            },
+            getData() {
+                this.$model.getMonthItems().then(items => {
+                    this.items = items
+                    console.log(items)
+                })
             },
             timeText(item) {
                 let now = new Date()
                 let date = new Date(item.time)
                 if (date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate()) {
-                    return '今天'
+                    return '今天' + date.getDate()
                 }
                 return date.getFullYear()
             },
@@ -105,6 +135,10 @@
                         this.items.splice(i, 1)
                     }
                 }
+                this.$storage.set('items', this.items)
+            },
+            clear() {
+                this.items = []
                 this.$storage.set('items', this.items)
             }
         }

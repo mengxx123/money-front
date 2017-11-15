@@ -12,6 +12,8 @@
             <mu-divider />
             <mu-list>
                 <mu-sub-header>声音开启设置</mu-sub-header>
+                <mu-list-item disableRipple @click="handleToggle('events')" title="导出">
+                </mu-list-item>
                 <mu-list-item disableRipple @click="handleToggle('events')" title="事件和提醒">
                     <mu-switch v-model="events"  slot="right"/>
                 </mu-list-item>
